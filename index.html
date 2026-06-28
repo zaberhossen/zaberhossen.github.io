@@ -205,7 +205,7 @@
       font-size: 0.78rem;
       font-family: inherit;
       color: #555;
-      cursor: none;
+      cursor: inherit;
       transition: border-color 0.2s, color 0.2s, background 0.2s;
       font-weight: 500;
     }
@@ -262,6 +262,43 @@
 
     .dark .project-entry:hover .project-title {
       color: #60a5fa;
+    }
+
+    /* ── Theme-aware text colors ── */
+    .text-role {
+      color: #666;
+    }
+    .dark .text-role {
+      color: #9ca3af;
+    }
+
+    .text-body {
+      color: #333;
+    }
+    .dark .text-body {
+      color: #c4c4c4;
+    }
+
+    .text-muted {
+      color: #888;
+    }
+    .dark .text-muted {
+      color: #6b7280;
+    }
+
+    .text-footer {
+      color: #aaa;
+    }
+    .dark .text-footer {
+      color: #4b5563;
+    }
+
+    /* ── Footer border (theme-aware) ── */
+    .footer-border {
+      border-color: #e5e5e5;
+    }
+    .dark .footer-border {
+      border-color: #2a2a2a;
     }
 
     /* ── Scramble text ── */
@@ -353,7 +390,7 @@
             class="text-2xl font-semibold tracking-tight leading-snug mb-1"
             style="letter-spacing: -0.02em;"
           >Zaber Hossen</h1>
-          <p class="text-sm" style="color: #666;">
+          <p class="text-sm text-role">
             Frontend Developer at
             <a
               href="https://10minuteschool.com"
@@ -378,7 +415,7 @@
         <a href="https://twitter.com/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">Twitter</a>
         <button
           class="quiet-link text-sm"
-          style="background: none; border: none; padding: 0; font-family: inherit; cursor: none;"
+          style="background: none; border: none; padding: 0; font-family: inherit; cursor: inherit;"
           onclick="copyEmail()"
           aria-label="Copy email address"
         >Email</button>
@@ -388,13 +425,13 @@
     <!-- ── INTRO ── -->
     <section class="fade-section mb-16" aria-labelledby="intro-heading">
       <p class="sr-only" id="intro-heading">About</p>
-      <p class="leading-relaxed text-[0.97rem]" style="color: #333;">
+      <p class="leading-relaxed text-[0.97rem] text-body">
         I'm a frontend developer focused on EdTech and learning tools — building
         interfaces that are fast, accessible, and easy to use. I enjoy working
         close to the product: thinking through UX, writing clean component
         code, and contributing to open source when I can.
       </p>
-      <p class="leading-relaxed text-[0.97rem] mt-4" style="color: #333;">
+      <p class="leading-relaxed text-[0.97rem] mt-4 text-body">
         Most of my time goes into making complex learning experiences feel simple.
         Currently building things at
         <a href="https://10minuteschool.com" class="link" target="_blank" rel="noopener noreferrer">10 Minute School</a>.
@@ -421,7 +458,7 @@
               aria-label="View Expense Tracker on GitHub"
             >GitHub →</a>
           </div>
-          <p class="text-sm mt-1" style="color: #888;">A personal finance tracker to log and visualize spending.</p>
+          <p class="text-sm mt-1 text-muted">A personal finance tracker to log and visualize spending.</p>
           <div class="mt-2 flex flex-wrap gap-1">
             <span class="tag">TypeScript</span>
           </div>
@@ -439,7 +476,7 @@
               aria-label="View Discord Clone on GitHub"
             >GitHub →</a>
           </div>
-          <p class="text-sm mt-1" style="color: #888;">A real-time chat application clone with channels and messaging.</p>
+          <p class="text-sm mt-1 text-muted">A real-time chat application clone with channels and messaging.</p>
           <div class="mt-2 flex flex-wrap gap-1">
             <span class="tag">TypeScript</span>
           </div>
@@ -457,7 +494,7 @@
               aria-label="View use-count-up on GitHub"
             >GitHub →</a>
           </div>
-          <p class="text-sm mt-1" style="color: #888;">A React hook to animate counting up or down to a target number.</p>
+          <p class="text-sm mt-1 text-muted">A React hook to animate counting up or down to a target number.</p>
           <div class="mt-2 flex flex-wrap gap-1">
             <span class="tag">React</span>
             <span class="tag">TypeScript</span>
@@ -476,7 +513,7 @@
               aria-label="View Amin Tannery on GitHub"
             >GitHub →</a>
           </div>
-          <p class="text-sm mt-1" style="color: #888;">A responsive business website template with a clean layout.</p>
+          <p class="text-sm mt-1 text-muted">A responsive business website template with a clean layout.</p>
           <div class="mt-2 flex flex-wrap gap-1">
             <span class="tag">CSS</span>
           </div>
@@ -508,11 +545,11 @@
     <!-- ── CONTACT ── -->
     <section class="fade-section mb-20" aria-labelledby="contact-heading">
       <p class="section-label" id="contact-heading">Contact</p>
-      <p class="text-[0.97rem]" style="color: #333;">
+      <p class="text-[0.97rem] text-body">
         Get in touch —
         <button
           onclick="copyEmail()"
-          style="background:none;border:none;padding:0;font-family:inherit;font-size:inherit;cursor:none;"
+          style="background:none;border:none;padding:0;font-family:inherit;font-size:inherit;cursor:inherit;"
           class="link"
           aria-label="Copy email address imzaber@gmail.com"
         >imzaber@gmail.com</button>
@@ -525,8 +562,8 @@
     </section>
 
     <!-- ── FOOTER ── -->
-    <footer class="fade-section border-t pt-8" style="border-color: #e5e5e5;">
-      <p class="text-xs" style="color: #aaa;">© 2026 Zaber Hossen</p>
+    <footer class="fade-section border-t pt-8 footer-border">
+      <p class="text-xs text-footer">© 2026 Zaber Hossen</p>
     </footer>
 
   </div><!-- /main layout -->
@@ -557,20 +594,29 @@
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
     });
 
-    // Ring follows with a slight lag
+    // Ring follows with a slight lag; pauses when cursor leaves the page
+    let ringRunning = true;
+
     (function animateRing() {
-      ringX += (mouseX - ringX) * 0.14;
-      ringY += (mouseY - ringY) * 0.14;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      if (ringRunning) {
+        ringX += (mouseX - ringX) * 0.14;
+        ringY += (mouseY - ringY) * 0.14;
+        const dist = Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
+        if (dist > 0.1) {
+          ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        }
+      }
       requestAnimationFrame(animateRing);
     })();
 
     document.addEventListener('mouseleave', () => {
+      ringRunning = false;
       dot.style.opacity  = '0';
       ring.style.opacity = '0';
     });
 
     document.addEventListener('mouseenter', () => {
+      ringRunning = true;
       dot.style.opacity  = '1';
       ring.style.opacity = '1';
     });
@@ -579,20 +625,15 @@
     const html      = document.documentElement;
     const toggle    = document.getElementById('dark-toggle');
     const darkIcon  = document.getElementById('dark-icon');
-    const darkStyle = document.querySelector('.dark .section-rule');
 
     // Persist preference
     function applyTheme(dark) {
       if (dark) {
         html.classList.add('dark');
         darkIcon.textContent = '○ Light';
-        document.body.style.background = '#111111';
-        document.body.style.color      = '#e8e8e8';
       } else {
         html.classList.remove('dark');
         darkIcon.textContent = '☾ Dark';
-        document.body.style.background = '#fafafa';
-        document.body.style.color      = '#111111';
       }
     }
 
@@ -670,29 +711,6 @@
         window.location.href = 'mailto:imzaber@gmail.com';
       });
     }
-
-    /* ─── Footer border dark mode sync ─── */
-    function syncFooterBorder() {
-      const footer = document.querySelector('footer');
-      if (!footer) return;
-      if (html.classList.contains('dark')) {
-        footer.style.borderColor = '#2a2a2a';
-      } else {
-        footer.style.borderColor = '#e5e5e5';
-      }
-    }
-
-    syncFooterBorder();
-    toggle.addEventListener('click', syncFooterBorder);
-
-    /* ─── Subtle section-rule dark mode sync ─── */
-    function syncRules() {
-      document.querySelectorAll('.section-rule').forEach(el => {
-        el.style.borderTopColor = html.classList.contains('dark') ? '#2a2a2a' : '#e5e5e5';
-      });
-    }
-    syncRules();
-    toggle.addEventListener('click', syncRules);
   </script>
 </body>
 </html>

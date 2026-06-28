@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaber Hossen — Frontend Developer</title>
+  <meta name="description" content="Zaber Hossen is a frontend developer at 10 Minute School, focused on EdTech and learning tools." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            accent: '#2563eb',
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { font-size: 17px; }
+
+    body {
+      background: #fafafa;
+      color: #111111;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .dark body {
+      background: #111111;
+      color: #e8e8e8;
+    }
+
+    html.dark {
+      background: #111111;
+    }
+
+    /* ── Cursor ── */
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: #2563eb;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: opacity 0.2s ease, transform 0.08s ease;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9998;
+      transition: opacity 0.2s ease, transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+    }
+
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring {
+      width: 48px;
+      height: 48px;
+      border-color: rgba(37, 99, 235, 0.65);
+    }
+
+    /* ── Scroll progress bar ── */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: #2563eb;
+      z-index: 9997;
+      transition: width 0.05s linear;
+    }
+
+    /* ── Fade-in sections ── */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Link underline style ── */
+    .link {
+      color: #2563eb;
+      text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      transition: background-size 0.25s ease;
+    }
+
+    .link:hover {
+      background-size: 100% 1px;
+    }
+
+    .dark .link {
+      color: #60a5fa;
+    }
+
+    /* ── Quiet links (nav / footer) ── */
+    .quiet-link {
+      color: #555;
+      text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      transition: color 0.2s ease, background-size 0.25s ease;
+    }
+
+    .quiet-link:hover {
+      color: #111;
+      background-size: 100% 1px;
+    }
+
+    .dark .quiet-link {
+      color: #9ca3af;
+    }
+
+    .dark .quiet-link:hover {
+      color: #e8e8e8;
+    }
+
+    /* ── Section divider ── */
+    .section-rule {
+      border: none;
+      border-top: 1px solid #e5e5e5;
+      margin: 3.5rem 0;
+    }
+
+    .dark .section-rule {
+      border-top-color: #2a2a2a;
+    }
+
+    /* ── Tech tag ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #777;
+      border: 1px solid #e0e0e0;
+      padding: 1px 7px;
+      border-radius: 3px;
+      line-height: 1.7;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .dark .tag {
+      color: #9ca3af;
+      border-color: #333;
+    }
+
+    /* ── Stack pills (inline) ── */
+    .stack-pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      color: #555;
+      background: #f0f0f0;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin: 3px 3px 3px 0;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dark .stack-pill {
+      color: #c4c4c4;
+      background: #1e1e1e;
+    }
+
+    /* ── Dark toggle ── */
+    #dark-toggle {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-family: inherit;
+      color: #555;
+      cursor: inherit;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      font-weight: 500;
+    }
+
+    #dark-toggle:hover {
+      border-color: #999;
+      color: #111;
+    }
+
+    .dark #dark-toggle {
+      border-color: #333;
+      color: #9ca3af;
+    }
+
+    .dark #dark-toggle:hover {
+      border-color: #666;
+      color: #e8e8e8;
+    }
+
+    /* ── Project entry ── */
+    .project-entry {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #e5e5e5;
+      transition: border-color 0.2s;
+    }
+
+    .dark .project-entry {
+      border-bottom-color: #222;
+    }
+
+    .project-entry:first-child {
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .dark .project-entry:first-child {
+      border-top-color: #222;
+    }
+
+    /* ── Project title hover ── */
+    .project-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #111;
+      transition: color 0.2s;
+    }
+
+    .dark .project-title {
+      color: #e8e8e8;
+    }
+
+    .project-entry:hover .project-title {
+      color: #2563eb;
+    }
+
+    .dark .project-entry:hover .project-title {
+      color: #60a5fa;
+    }
+
+    /* ── Theme-aware text colors ── */
+    .text-role {
+      color: #666;
+    }
+    .dark .text-role {
+      color: #9ca3af;
+    }
+
+    .text-body {
+      color: #333;
+    }
+    .dark .text-body {
+      color: #c4c4c4;
+    }
+
+    .text-muted {
+      color: #888;
+    }
+    .dark .text-muted {
+      color: #6b7280;
+    }
+
+    .text-footer {
+      color: #aaa;
+    }
+    .dark .text-footer {
+      color: #4b5563;
+    }
+
+    /* ── Footer border (theme-aware) ── */
+    .footer-border {
+      border-color: #e5e5e5;
+    }
+    .dark .footer-border {
+      border-color: #2a2a2a;
+    }
+
+    /* ── Scramble text ── */
+    #hero-name {
+      cursor: default;
+    }
+
+    /* ── Clipboard toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #111;
+      color: #fafafa;
+      font-size: 0.78rem;
+      padding: 8px 18px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9996;
+      white-space: nowrap;
+    }
+
+    .dark #toast {
+      background: #fafafa;
+      color: #111;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Section heading ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .dark .section-label {
+      color: #555;
+    }
+
+    /* ── Mobile: hide custom cursor ── */
+    @media (pointer: coarse) {
+      body { cursor: auto; }
+      #cursor-dot, #cursor-ring { display: none; }
+    }
+
+    /* ── Selection color ── */
+    ::selection {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .dark ::selection {
+      background: #1e3a5f;
+      color: #bfdbfe;
+    }
+  </style>
+</head>
+<body class="dark:bg-[#111111] dark:text-[#e8e8e8]">
+
+  <!-- Scroll progress -->
+  <div id="scroll-progress" role="presentation" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Clipboard toast -->
+  <div id="toast" role="status" aria-live="polite">Email copied!</div>
+
+  <!-- ── Main layout ── -->
+  <div class="mx-auto px-6 py-16" style="max-width: 680px;">
+
+    <!-- ── HEADER ── -->
+    <header class="fade-section mb-20">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1
+            id="hero-name"
+            class="text-2xl font-semibold tracking-tight leading-snug mb-1"
+            style="letter-spacing: -0.02em;"
+          >Zaber Hossen</h1>
+          <p class="text-sm text-role">
+            Frontend Developer at
+            <a
+              href="https://10minuteschool.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link"
+            >10 Minute School</a>
+          </p>
+        </div>
+        <button
+          id="dark-toggle"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+        >
+          <span id="dark-icon">☾ Dark</span>
+        </button>
+      </div>
+
+      <nav class="mt-6 flex flex-wrap gap-x-5 gap-y-1" aria-label="Social links">
+        <a href="https://github.com/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://twitter.com/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <button
+          class="quiet-link text-sm"
+          style="background: none; border: none; padding: 0; font-family: inherit; cursor: inherit;"
+          onclick="copyEmail()"
+          aria-label="Copy email address"
+        >Email</button>
+      </nav>
+    </header>
+
+    <!-- ── INTRO ── -->
+    <section class="fade-section mb-16" aria-labelledby="intro-heading">
+      <p class="sr-only" id="intro-heading">About</p>
+      <p class="leading-relaxed text-[0.97rem] text-body">
+        I'm a frontend developer focused on EdTech and learning tools — building
+        interfaces that are fast, accessible, and easy to use. I enjoy working
+        close to the product: thinking through UX, writing clean component
+        code, and contributing to open source when I can.
+      </p>
+      <p class="leading-relaxed text-[0.97rem] mt-4 text-body">
+        Most of my time goes into making complex learning experiences feel simple.
+        Currently building things at
+        <a href="https://10minuteschool.com" class="link" target="_blank" rel="noopener noreferrer">10 Minute School</a>.
+      </p>
+    </section>
+
+    <hr class="section-rule fade-section" />
+
+    <!-- ── WORK ── -->
+    <section class="fade-section mb-16" aria-labelledby="work-heading">
+      <p class="section-label" id="work-heading">Work</p>
+
+      <div role="list">
+
+        <!-- Project: Expense Tracker -->
+        <article class="project-entry" role="listitem">
+          <div class="flex items-baseline justify-between gap-4 flex-wrap">
+            <span class="project-title">Expense Tracker</span>
+            <a
+              href="https://github.com/zaberhossen/expense-tracker"
+              class="link text-xs font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Expense Tracker on GitHub"
+            >GitHub →</a>
+          </div>
+          <p class="text-sm mt-1 text-muted">A personal finance tracker to log and visualize spending.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag">TypeScript</span>
+          </div>
+        </article>
+
+        <!-- Project: Discord Clone -->
+        <article class="project-entry" role="listitem">
+          <div class="flex items-baseline justify-between gap-4 flex-wrap">
+            <span class="project-title">Discord Clone</span>
+            <a
+              href="https://github.com/zaberhossen/discord-clone"
+              class="link text-xs font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Discord Clone on GitHub"
+            >GitHub →</a>
+          </div>
+          <p class="text-sm mt-1 text-muted">A real-time chat application clone with channels and messaging.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag">TypeScript</span>
+          </div>
+        </article>
+
+        <!-- Project: use-count-up -->
+        <article class="project-entry" role="listitem">
+          <div class="flex items-baseline justify-between gap-4 flex-wrap">
+            <span class="project-title">use-count-up</span>
+            <a
+              href="https://github.com/zaberhossen/use-count-up"
+              class="link text-xs font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View use-count-up on GitHub"
+            >GitHub →</a>
+          </div>
+          <p class="text-sm mt-1 text-muted">A React hook to animate counting up or down to a target number.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+          </div>
+        </article>
+
+        <!-- Project: Amin Tannery -->
+        <article class="project-entry" role="listitem">
+          <div class="flex items-baseline justify-between gap-4 flex-wrap">
+            <span class="project-title">Amin Tannery</span>
+            <a
+              href="https://github.com/zaberhossen/amin-tannery"
+              class="link text-xs font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Amin Tannery on GitHub"
+            >GitHub →</a>
+          </div>
+          <p class="text-sm mt-1 text-muted">A responsive business website template with a clean layout.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag">CSS</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <hr class="section-rule fade-section" />
+
+    <!-- ── STACK ── -->
+    <section class="fade-section mb-16" aria-labelledby="stack-heading">
+      <p class="section-label" id="stack-heading">Stack</p>
+      <div>
+        <span class="stack-pill">JavaScript</span>
+        <span class="stack-pill">TypeScript</span>
+        <span class="stack-pill">React</span>
+        <span class="stack-pill">Next.js</span>
+        <span class="stack-pill">Tailwind</span>
+        <span class="stack-pill">HTML / CSS</span>
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">Git</span>
+        <span class="stack-pill">GitHub Actions</span>
+      </div>
+    </section>
+
+    <hr class="section-rule fade-section" />
+
+    <!-- ── CONTACT ── -->
+    <section class="fade-section mb-20" aria-labelledby="contact-heading">
+      <p class="section-label" id="contact-heading">Contact</p>
+      <p class="text-[0.97rem] text-body">
+        Get in touch —
+        <button
+          onclick="copyEmail()"
+          style="background:none;border:none;padding:0;font-family:inherit;font-size:inherit;cursor:inherit;"
+          class="link"
+          aria-label="Copy email address imzaber@gmail.com"
+        >imzaber@gmail.com</button>
+      </p>
+      <nav class="mt-4 flex flex-wrap gap-x-5 gap-y-1" aria-label="Social links footer">
+        <a href="https://github.com/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://twitter.com/zaberhossen" class="quiet-link text-sm" target="_blank" rel="noopener noreferrer">Twitter</a>
+      </nav>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="fade-section border-t pt-8 footer-border">
+      <p class="text-xs text-footer">© 2026 Zaber Hossen</p>
+    </footer>
+
+  </div><!-- /main layout -->
+
+  <script>
+    /* ─── Scroll progress bar ─── */
+    const progressBar = document.getElementById('scroll-progress');
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    /* ─── Custom cursor ─── */
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+
+    let mouseX = 0, mouseY = 0;
+    let ringX  = 0, ringY  = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    // Ring follows with a slight lag; pauses when cursor leaves the page
+    let ringRunning = true;
+
+    (function animateRing() {
+      if (ringRunning) {
+        ringX += (mouseX - ringX) * 0.14;
+        ringY += (mouseY - ringY) * 0.14;
+        const dist = Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
+        if (dist > 0.1) {
+          ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        }
+      }
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.addEventListener('mouseleave', () => {
+      ringRunning = false;
+      dot.style.opacity  = '0';
+      ring.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      ringRunning = true;
+      dot.style.opacity  = '1';
+      ring.style.opacity = '1';
+    });
+
+    /* ─── Dark mode toggle ─── */
+    const html      = document.documentElement;
+    const toggle    = document.getElementById('dark-toggle');
+    const darkIcon  = document.getElementById('dark-icon');
+
+    // Persist preference
+    function applyTheme(dark) {
+      if (dark) {
+        html.classList.add('dark');
+        darkIcon.textContent = '○ Light';
+      } else {
+        html.classList.remove('dark');
+        darkIcon.textContent = '☾ Dark';
+      }
+    }
+
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved ? saved === 'dark' : prefersDark);
+
+    toggle.addEventListener('click', () => {
+      const isDark = html.classList.contains('dark');
+      applyTheme(!isDark);
+      localStorage.setItem('theme', !isDark ? 'dark' : 'light');
+    });
+
+    /* ─── Intersection Observer fade-in ─── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-section').forEach((el, i) => {
+      // Stagger the initial load
+      el.style.transitionDelay = (i * 0.06) + 's';
+      observer.observe(el);
+    });
+
+    /* ─── Text scramble on name ─── */
+    const nameEl  = document.getElementById('hero-name');
+    const nameStr = 'Zaber Hossen';
+    const chars   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let scrambleFrame = null;
+
+    function scramble() {
+      if (scrambleFrame) cancelAnimationFrame(scrambleFrame);
+
+      let iteration = 0;
+      const totalFrames = nameStr.length * 3;
+
+      function step() {
+        nameEl.textContent = nameStr
+          .split('')
+          .map((ch, i) => {
+            if (ch === ' ') return ' ';
+            if (i < Math.floor(iteration / 3)) return nameStr[i];
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join('');
+
+        if (iteration < totalFrames) {
+          iteration++;
+          scrambleFrame = requestAnimationFrame(step);
+        } else {
+          nameEl.textContent = nameStr;
+        }
+      }
+      step();
+    }
+
+    nameEl.addEventListener('mouseenter', scramble);
+
+    /* ─── Copy email to clipboard ─── */
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+
+    function copyEmail() {
+      navigator.clipboard.writeText('imzaber@gmail.com').then(() => {
+        toast.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+      }).catch(() => {
+        // Fallback: open mailto
+        window.location.href = 'mailto:imzaber@gmail.com';
+      });
+    }
+  </script>
+</body>
+</html>

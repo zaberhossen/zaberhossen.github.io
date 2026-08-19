@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/tidy", "destination": "/tidy/" }
+  ],
+  "rewrites": [
+    { "source": "/tidy/:path*", "destination": "https://zaberhossen.github.io/Tidy/:path*" }
+  ]
+}
